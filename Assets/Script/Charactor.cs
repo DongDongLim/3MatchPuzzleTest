@@ -14,6 +14,7 @@ public abstract class Charactor : MonoBehaviour
     [SerializeField]
     protected int m_MaxSize;
      
+    public int m_PositionIndex;
 
     public bool IsSameChar(Charactor charactor)
     {

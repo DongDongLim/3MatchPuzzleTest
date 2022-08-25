@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PuzzleNodes : MonoBehaviour
 {
-    [SerializeField]
     private int m_MaxWidth;
-    [SerializeField]
     private int m_MaxHeight;
     public int[,] m_NodeIndexs;
     private void Awake()
     {
+        m_MaxWidth = SharedData.instance.MaxWidth;
+        m_MaxHeight = SharedData.instance.MaxHight;
         m_NodeIndexs = new int[m_MaxHeight, m_MaxWidth];
         for (int i = 0; i < m_MaxHeight; ++i)
         {
