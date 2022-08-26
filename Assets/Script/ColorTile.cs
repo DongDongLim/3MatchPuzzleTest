@@ -12,7 +12,19 @@ public class ColorTile : Tile
 
     private void OnEnable()
     {
-        TileNum = Random.Range(0, m_MaxSize);
-        m_TileImg.color = m_color[TileNum];
+        Init(Random.Range(0, m_MaxSize));
     }
+
+    private void Init(int num)
+    {
+        TileNum = num;
+        m_TileImg.color = m_color[num];
+    }
+
+    public void ReSetting(List<int> exIndex)
+    {
+        Init(m_RandNum.OvelapRandNum(exIndex, m_color.Length));
+    }
+
+    
 }
