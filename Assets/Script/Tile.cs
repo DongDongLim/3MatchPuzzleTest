@@ -15,7 +15,9 @@ public abstract class Tile : MonoBehaviour
     protected int m_MaxSize;
 
     protected RandNum m_RandNum;
-     
+    
+    protected ILineCheck m_LineCheck;
+
     public int m_PositionIndex;
 
     private void OnEnable()

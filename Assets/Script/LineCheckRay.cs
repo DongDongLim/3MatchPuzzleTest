@@ -13,7 +13,7 @@ public class LineCheckRay : ILineCheck
 
     List<Tile> tileList = new List<Tile>(SharedData.instance.MaxWidth);
 
-    public void Checking(bool isWidth, int heightIndex, ref List<Tile> matchTile)
+    public void LineChecking(bool isWidth, int heightIndex, List<Tile> matchTile)
     {
         if (isWidth)
         {
@@ -27,7 +27,7 @@ public class LineCheckRay : ILineCheck
         }
 
         m_hit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(heightIndex, 0),
-            m_dir, SharedData.instance.TileSize * m_distance);
+            m_dir, SharedData.instance.TileSize * m_distance, LayerMask.GetMask("Tile"));
 
         tileList.Clear();
 

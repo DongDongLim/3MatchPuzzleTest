@@ -13,5 +13,14 @@ public class TileCheck : MonoBehaviour
     {
         m_LineCheck = new LineCheckRay();
         m_matchTile = new List<Tile>(SharedData.instance.MaxWidth);
+        Invoke("CheckTest", 2f);
+    }
+
+    void CheckTest()
+    {
+        for(int i = 0; i < 9; ++i)
+        {
+            m_LineCheck.LineChecking(true, i, m_matchTile);
+        }
     }
 }

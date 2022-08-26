@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ILineCheck
 {
-    void Checking(bool isWidth, int heightIndex, ref List<Tile> matchTile);
+    void LineChecking(bool isWidth, int heightIndex, List<Tile> matchTile);
 }
