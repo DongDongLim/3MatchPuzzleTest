@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ColorCharactor : Charactor
 {
-    Color[] m_color = { Color.red, Color.green, Color.blue };
+    Color[] m_color = { Color.red, Color.green, Color.blue, Color.black, Color.white, Color.yellow };
 
     [SerializeField]
     Image m_CharImg;
