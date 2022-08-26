@@ -34,7 +34,7 @@ public class GameMng : MonoBehaviour
     public GameObject ActiveChar(int index)
     {
         m_activeObj = m_Pooling.Pop();
-        m_activeObj.GetComponent<Charactor>().m_PositionIndex = index;
+        m_activeObj.GetComponent<Tile>().m_PositionIndex = index;
         m_activeObj.SetActive(true);
         return m_activeObj;
     }

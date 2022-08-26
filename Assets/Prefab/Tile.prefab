@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8322297892753212773}
   - component: {fileID: 8322297892753212772}
   m_Layer: 5
-  m_Name: Char
+  m_Name: Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MaxSize: 6
   m_PositionIndex: 0
-  m_CharImg: {fileID: 8322297894603045092}
+  m_TileImg: {fileID: 0}
 --- !u!1 &8322297894557797328
 GameObject:
   m_ObjectHideFlags: 0
@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 8322297894557797330}
   - component: {fileID: 6488702058904139449}
   m_Layer: 5
-  m_Name: CharBG
+  m_Name: TileBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 8322297894603045095}
   - component: {fileID: 8322297894603045092}
   m_Layer: 5
-  m_Name: CharImg
+  m_Name: TileImg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
