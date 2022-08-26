@@ -5,8 +5,6 @@ using UnityEngine;
 public class GameMng : MonoBehaviour
 {
     [SerializeField]
-    PuzzleNodes m_Nodes;
-    [SerializeField]
     GameObject m_CharPrefab;
     GameObject m_activeObj;
     ObjectPooling m_Pooling;
@@ -27,7 +25,7 @@ public class GameMng : MonoBehaviour
         for (int i = 0; i < SharedData.instance.MaxPoolCount; ++i)
         {
             m_Pooling.Push(Instantiate(m_CharPrefab, transform, false));
-            ActiveChar(i).transform.position = m_Nodes.GetPuzzleNode(i);
+            ActiveChar(i).transform.position = SharedData.instance.GetNodePosition(i);
         }
     }
 

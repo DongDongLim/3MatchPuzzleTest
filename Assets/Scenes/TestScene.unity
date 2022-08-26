@@ -2296,6 +2296,7 @@ GameObject:
   - component: {fileID: 1135239841}
   - component: {fileID: 1135239844}
   - component: {fileID: 1135239843}
+  - component: {fileID: 1135239845}
   m_Layer: 5
   m_Name: GameMng
   m_TagString: Untagged
@@ -2374,7 +2375,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60b03e784f1f5de45bc6a646d1ee54ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Nodes: {fileID: 859632190}
   m_CharPrefab: {fileID: 8322297892753212770, guid: 5148fe4d70f551f49887d47bdeec0458, type: 3}
 --- !u!114 &1135239844
 MonoBehaviour:
@@ -2388,8 +2388,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7af1719802f9824b88821d089346b71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Nodes: {fileID: 859632190}
+  m_TileSize: 150
   m_MaxWidth: 9
   m_MaxHeight: 9
+--- !u!114 &1135239845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1135239839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 400ad3c4c6d0fba41a8d7a8a0e3db234, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1157416225
 GameObject:
   m_ObjectHideFlags: 0
