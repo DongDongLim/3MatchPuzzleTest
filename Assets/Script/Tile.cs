@@ -6,8 +6,8 @@ public abstract class Tile : MonoBehaviour
 {
     int m_TileNum;
 
-    protected int TileNum {
-        set { m_TileNum = value; }
+    public int TileNum {
+        protected set { m_TileNum = value; }
         get { return m_TileNum; }
     }
 
@@ -16,18 +16,20 @@ public abstract class Tile : MonoBehaviour
 
     protected RandNum m_RandNum;
     
-    protected ILineCheck m_LineCheck;
+    protected ICrossCheck m_CrossCheck;
 
     public int m_PositionIndex;
 
-    private void OnEnable()
+    private void Awake()
     {
         m_RandNum = new RandNum();
+        m_CrossCheck = new CrossCheckRay();
     }
 
     public bool IsSameTile(Tile Tileactor)
     {
         return m_TileNum == Tileactor.m_TileNum;
     }
+    public abstract void ReSetting();
 
 }

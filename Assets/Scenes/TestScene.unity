@@ -2375,7 +2375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60b03e784f1f5de45bc6a646d1ee54ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CharPrefab: {fileID: 8322297892753212770, guid: 5148fe4d70f551f49887d47bdeec0458, type: 3}
+  m_TilePrefab: {fileID: 8322297892753212770, guid: 5148fe4d70f551f49887d47bdeec0458, type: 3}
 --- !u!114 &1135239844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2404,6 +2404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 400ad3c4c6d0fba41a8d7a8a0e3db234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_matchTile: []
 --- !u!1 &1157416225
 GameObject:
   m_ObjectHideFlags: 0

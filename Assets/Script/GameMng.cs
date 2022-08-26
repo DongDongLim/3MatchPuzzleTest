@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameMng : MonoBehaviour
 {
     [SerializeField]
-    GameObject m_CharPrefab;
+    GameObject m_TilePrefab;
     GameObject m_activeObj;
     ObjectPooling m_Pooling;
     
@@ -17,19 +17,24 @@ public class GameMng : MonoBehaviour
 
     private void Start()
     {
-        CreateChar();
+        CreateTile();
+        Invoke("StartTest", 1f);
     }
+    void StartTest()
+    {
+        SharedData.instance.OnStartGame?.Invoke();
 
-    private void CreateChar()
+    }
+    private void CreateTile()
     {
         for (int i = 0; i < SharedData.instance.MaxPoolCount; ++i)
         {
-            m_Pooling.Push(Instantiate(m_CharPrefab, transform, false));
-            ActiveChar(i).transform.position = SharedData.instance.GetNodePosition(i);
+            m_Pooling.Push(Instantiate(m_TilePrefab, transform, false));
+            ActiveTile(i).transform.position = SharedData.instance.GetNodePosition(i);
         }
     }
 
-    public GameObject ActiveChar(int index)
+    public GameObject ActiveTile(int index)
     {
         m_activeObj = m_Pooling.Pop();
         m_activeObj.GetComponent<Tile>().m_PositionIndex = index;
@@ -37,7 +42,7 @@ public class GameMng : MonoBehaviour
         return m_activeObj;
     }
 
-    public void InActiveChar(GameObject obj)
+    public void InActiveTile(GameObject obj)
     {
         m_Pooling.Push(obj);
     }

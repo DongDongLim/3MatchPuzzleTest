@@ -21,8 +21,9 @@ public class ColorTile : Tile
         m_TileImg.color = m_color[num];
     }
 
-    public void ReSetting(List<int> exIndex)
+    public override void ReSetting()
     {
+        List<int> exIndex = m_CrossCheck.CrossChecking(transform);
         Init(m_RandNum.OvelapRandNum(exIndex, m_color.Length));
     }
 

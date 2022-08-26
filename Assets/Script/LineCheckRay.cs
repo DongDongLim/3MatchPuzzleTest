@@ -13,22 +13,32 @@ public class LineCheckRay : ILineCheck
 
     List<Tile> tileList = new List<Tile>(SharedData.instance.MaxWidth);
 
-    public void LineChecking(bool isWidth, int heightIndex, List<Tile> matchTile)
+    public void LineChecking(bool isWidth, int stdIndex, List<Tile> matchTile)
     {
         if (isWidth)
         {
             m_distance = SharedData.instance.MaxWidth - 1;
+
             m_dir = Vector2.right;
+
+            m_hit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(stdIndex, 0),
+                m_dir, SharedData.instance.TileSize * m_distance, LayerMask.GetMask("Tile"));
         }
         else
         {
             m_distance = SharedData.instance.MaxHight - 1;
+
             m_dir = Vector2.down;
+
+            m_hit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(0, stdIndex),
+                m_dir, SharedData.instance.TileSize * m_distance, LayerMask.GetMask("Tile"));
         }
 
-        m_hit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(heightIndex, 0),
-            m_dir, SharedData.instance.TileSize * m_distance, LayerMask.GetMask("Tile"));
-
+        if (m_hit.Length == 0)
+        {
+            Debug.Log(true);
+            return;
+        }
         tileList.Clear();
 
         tileList.Add(m_hit[0].transform.GetComponent<Tile>());

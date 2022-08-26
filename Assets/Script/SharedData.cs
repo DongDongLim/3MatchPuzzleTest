@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SharedData : SingleTonOnly<SharedData>
 {
@@ -20,6 +21,8 @@ public class SharedData : SingleTonOnly<SharedData>
     private int m_MaxPoolCount;
 
     private int[,] m_NodeIndexs;
+
+    public UnityAction OnStartGame;
 
     public int TileSize { get { return m_TileSize; } }
 
