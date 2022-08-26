@@ -21,10 +21,20 @@ public class ColorTile : Tile
         m_TileImg.color = m_color[num];
     }
 
-    public override void ReSetting()
+    private void Init(int num, TileCheck tileCheck)
     {
-        List<int> exIndex = m_CrossCheck.CrossChecking(transform);
-        Init(m_RandNum.OvelapRandNum(exIndex, m_color.Length));
+        TileNum = num;
+        m_TileImg.color = m_color[num];
+        m_Mutex.Dequeue();
+        if (!m_Mutex.Empty())
+            m_Mutex.FirstCall(tileCheck);
+    }
+
+    public override void ReSetting(TileCheck tileCheck)
+    {
+        List<int> exIndex = m_CrossCheck.CrossChecking(this);
+        m_Mutex = tileCheck.GetMutex();
+        Init(m_RandNum.OvelapRandNum(exIndex, m_color.Length), tileCheck);
     }
 
     

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ICrossCheck
 {
-    List<int> CrossChecking(Transform mine);
+    List<int> CrossChecking(Tile mine);
 }

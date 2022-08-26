@@ -30,7 +30,7 @@ public class GameMng : MonoBehaviour
         for (int i = 0; i < SharedData.instance.MaxPoolCount; ++i)
         {
             m_Pooling.Push(Instantiate(m_TilePrefab, transform, false));
-            ActiveTile(i).transform.position = SharedData.instance.GetNodePosition(i);
+            ActiveTile(i).transform.position = new Vector3( SharedData.instance.GetNodePosition(i).x, SharedData.instance.GetNodePosition(i).y, 0);
         }
     }
 

@@ -26,3 +26,27 @@ public class Mutex : MonoBehaviour
         return m_Array.Dequeue();
     }
 }
+
+public class Mutex<T> : MonoBehaviour
+{
+    Queue<UnityAction<T>> m_Array = new Queue<UnityAction<T>>();
+    public void Enqueue(UnityAction<T> value)
+    {
+        m_Array.Enqueue(value);
+    }
+
+    public void FirstCall(T value)
+    {
+        m_Array.Peek()?.Invoke(value);
+    }
+
+    public bool Empty()
+    {
+        return m_Array.Count == 0;
+    }
+
+    public UnityAction<T> Dequeue()
+    {
+        return m_Array.Dequeue();
+    }
+}

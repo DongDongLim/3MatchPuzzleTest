@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Tile : MonoBehaviour
 {
+    [SerializeField]
     int m_TileNum;
 
     public int TileNum {
@@ -18,6 +19,8 @@ public abstract class Tile : MonoBehaviour
     
     protected ICrossCheck m_CrossCheck;
 
+    protected Mutex<TileCheck> m_Mutex;
+
     public int m_PositionIndex;
 
     private void Awake()
@@ -30,6 +33,6 @@ public abstract class Tile : MonoBehaviour
     {
         return m_TileNum == Tileactor.m_TileNum;
     }
-    public abstract void ReSetting();
+    public abstract void ReSetting(TileCheck tileCheck);
 
 }

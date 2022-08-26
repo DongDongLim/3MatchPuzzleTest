@@ -6,24 +6,26 @@ public class CrossCheckRay : ICrossCheck
 {
     RaycastHit2D[] m_hit;
 
-    Vector2[] m_DirVector = { Vector2.up, Vector2.down, Vector2.left, Vector2.right, Vector2.zero };
-
     List<int> m_checkList;
 
-    public List<int> CrossChecking(Transform mine)
+    public List<int> CrossChecking(Tile mine)
     {
         m_checkList = new List<int>();
 
-        m_hit = new RaycastHit2D[m_DirVector.Length];
-
-        for(int i = 0; i < m_DirVector.Length; ++i)
+        m_hit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(mine.m_PositionIndex) + (Vector2.up * SharedData.instance.TileSize), Vector2.down, SharedData.instance.TileSize * 2, LayerMask.GetMask("Tile"));
+        
+        if(m_hit[0].collider != null)
         {
-            m_hit[i] = Physics2D.Raycast((Vector2)mine.position + (m_DirVector[i] * SharedData.instance.TileSize), Vector2.up, 1, LayerMask.GetMask("Tile"));
+            foreach(var hit in m_hit)
+                m_checkList.Add(hit.transform.GetComponent<Tile>().TileNum);
+        }
 
-            if (m_hit[i].collider != null)
-            {
-                m_checkList.Add(m_hit[i].transform.GetComponent<Tile>().TileNum);
-            }
+        m_hit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(mine.m_PositionIndex) + (Vector2.left * SharedData.instance.TileSize), Vector2.right, SharedData.instance.TileSize * 2, LayerMask.GetMask("Tile"));
+        
+        if (m_hit[0].collider != null)
+        {
+            foreach (var hit in m_hit)
+                m_checkList.Add(hit.transform.GetComponent<Tile>().TileNum);
         }
 
         return m_checkList;

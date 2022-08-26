@@ -10,41 +10,35 @@ public class TileCheck : MonoBehaviour
     [SerializeField]
     List<Tile> m_matchTile;
 
-    int m_checkCount;
-
-    WaitForSeconds m_WaitForSeconds;
-
-    Mutex m_Mutex;
+    Mutex<TileCheck> m_Mutex;
 
 
     private void Awake()
     {
         m_LineCheck = new LineCheckRay();
         m_matchTile = new List<Tile>(SharedData.instance.MaxWidth);
-        m_Mutex = new Mutex();
+        m_Mutex = new Mutex<TileCheck>();
         SharedData.instance.OnStartGame += InitLineCheckAll;
     }
 
     void InitLineCheckAll()
     {
-        m_WaitForSeconds = null;
-        m_Mutex.Enqueue(WidthReSetChecking);
-        m_Mutex.Enqueue(HeightReSetChecking);
-        m_Mutex.FirstCall();
+        WidthReSetChecking();
+        HeightReSetChecking();
     }
 
 
     void WidthReSetChecking()
     {
-        StartCoroutine(CorReSetChecking(true));
+        CorReSetChecking(true);
     }
 
     void HeightReSetChecking()
     {
-        StartCoroutine(CorReSetChecking(false));
+        CorReSetChecking(false);
     }
 
-    IEnumerator CorReSetChecking(bool isWidth)
+    void CorReSetChecking(bool isWidth)
     {
         for (int i = 0; i < (isWidth ? SharedData.instance.MaxWidth : SharedData.instance.MaxHight); ++i)
         {
@@ -54,14 +48,16 @@ public class TileCheck : MonoBehaviour
             {
                 foreach (Tile tile in m_matchTile)
                 {
-                    tile.ReSetting();
-                    yield return m_WaitForSeconds;
+                    m_Mutex.Enqueue(tile.ReSetting);
+                    tile.ReSetting(this);
                 }
                 m_matchTile.Clear();
             }
         }
-        m_Mutex.Dequeue();
-        if (!m_Mutex.Empty())
-            m_Mutex.FirstCall();
+    }
+
+    public Mutex<TileCheck> GetMutex()
+    {
+        return m_Mutex;
     }
 }
