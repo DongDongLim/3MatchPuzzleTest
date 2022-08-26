@@ -22,6 +22,9 @@ public class SharedData : SingleTonOnly<SharedData>
 
     private int[,] m_NodeIndexs;
 
+    [SerializeField]
+    private float m_NodeDis;
+
     public UnityAction OnStartGame;
 
     public int TileSize { get { return m_TileSize; } }
@@ -31,6 +34,8 @@ public class SharedData : SingleTonOnly<SharedData>
     public int MaxHight { get { return m_MaxHeight; } }
 
     public int MaxPoolCount { get { return m_MaxPoolCount; } }
+
+    public float NodeDis { get { return m_NodeDis; } }
 
     public void SetNodeIndexs(int height, int width, int value)
     {
@@ -55,5 +60,12 @@ public class SharedData : SingleTonOnly<SharedData>
     {
         m_NodeIndexs = new int[m_MaxHeight, m_MaxWidth];
         m_MaxPoolCount = m_MaxWidth * m_MaxHeight;
+        OnStartGame += SetNodeDis;
+    }
+
+    public void SetNodeDis()
+    {
+        m_NodeDis = (int)(GetNodePosition(1) - GetNodePosition(0)).magnitude;
+        Debug.Log(true);
     }
 }

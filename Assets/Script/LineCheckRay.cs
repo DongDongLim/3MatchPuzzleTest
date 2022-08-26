@@ -22,7 +22,7 @@ public class LineCheckRay : ILineCheck
             m_dir = Vector2.right;
 
             m_hit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(stdIndex, 0),
-                m_dir, SharedData.instance.TileSize * m_distance, LayerMask.GetMask("Tile"));
+                m_dir, SharedData.instance.NodeDis * m_distance, LayerMask.GetMask("Tile"));
         }
         else
         {
@@ -31,7 +31,7 @@ public class LineCheckRay : ILineCheck
             m_dir = Vector2.down;
 
             m_hit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(0, stdIndex),
-                m_dir, SharedData.instance.TileSize * m_distance, LayerMask.GetMask("Tile"));
+                m_dir, SharedData.instance.NodeDis * m_distance, LayerMask.GetMask("Tile"));
         }
 
         if (m_hit.Length == 0)

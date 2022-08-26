@@ -12,7 +12,7 @@ public class CrossCheckRay : ICrossCheck
     {
         m_checkList = new List<int>();
 
-        m_hit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(mine.m_PositionIndex) + (Vector2.up * SharedData.instance.TileSize), Vector2.down, SharedData.instance.TileSize * 2, LayerMask.GetMask("Tile"));
+        m_hit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(mine.m_PositionIndex) + (Vector2.up * SharedData.instance.NodeDis), Vector2.down, SharedData.instance.NodeDis * 2, LayerMask.GetMask("Tile"));
         
         if(m_hit[0].collider != null)
         {
@@ -20,7 +20,7 @@ public class CrossCheckRay : ICrossCheck
                 m_checkList.Add(hit.transform.GetComponent<Tile>().TileNum);
         }
 
-        m_hit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(mine.m_PositionIndex) + (Vector2.left * SharedData.instance.TileSize), Vector2.right, SharedData.instance.TileSize * 2, LayerMask.GetMask("Tile"));
+        m_hit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(mine.m_PositionIndex) + (Vector2.left * SharedData.instance.NodeDis), Vector2.right, SharedData.instance.NodeDis * 2, LayerMask.GetMask("Tile"));
         
         if (m_hit[0].collider != null)
         {
