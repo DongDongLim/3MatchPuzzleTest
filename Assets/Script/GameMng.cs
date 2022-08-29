@@ -5,14 +5,19 @@ using UnityEngine;
 public class GameMng : MonoBehaviour
 {
     [SerializeField]
+    float m_DelayTime;
+    [SerializeField]
     GameObject m_TilePrefab;
     GameObject m_activeObj;
     ObjectPooling m_Pooling;
+
+    WaitForSeconds m_CorDelayTime;
     
 
     private void Awake()
     {
         m_Pooling = new ObjectPooling();
+        m_CorDelayTime = new WaitForSeconds(m_DelayTime);
     }
 
     private void Start()
@@ -27,8 +32,14 @@ public class GameMng : MonoBehaviour
             m_Pooling.Push(Instantiate(m_TilePrefab, transform, false));
             ActiveTile(i).transform.position
                 = new Vector3( SharedData.instance.GetNodePosition(i).x, SharedData.instance.GetNodePosition(i).y, 0);
-            SharedData.instance.InitColorTile();
         }
+        StartCoroutine(StageStart());
+    }
+
+    IEnumerator StageStart()
+    {
+        yield return m_CorDelayTime;
+        SharedData.instance.OnStartGame?.Invoke();
     }
 
     public GameObject ActiveTile(int index)

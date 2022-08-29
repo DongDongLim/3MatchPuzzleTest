@@ -36,6 +36,8 @@ public class Mutex<T>
 
     public void FirstCall(T value)
     {
+        if (m_Array.Count == 0)
+            return;
         m_Array.Peek()?.Invoke(value);
     }
 

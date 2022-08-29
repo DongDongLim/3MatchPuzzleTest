@@ -2375,6 +2375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60b03e784f1f5de45bc6a646d1ee54ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_DelayTime: 0.05
   m_TilePrefab: {fileID: 8322297892753212770, guid: 5148fe4d70f551f49887d47bdeec0458, type: 3}
 --- !u!114 &1135239844
 MonoBehaviour:
@@ -2392,6 +2393,7 @@ MonoBehaviour:
   m_TileSize: 150
   m_MaxWidth: 9
   m_MaxHeight: 9
+  m_NodeDis: 0
 --- !u!114 &1135239845
 MonoBehaviour:
   m_ObjectHideFlags: 0
