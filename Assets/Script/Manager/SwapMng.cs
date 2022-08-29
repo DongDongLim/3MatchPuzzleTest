@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class SwapMng : SingleTonOnly<SwapMng>
 {
+    [SerializeField]
+    int m_SwapSpeed;
+
     Tile m_CurSelectTile;
 
     ISwap m_SwapTile;
+
+    bool isSwap = false;
 
 
     protected override void OnAwake()
@@ -20,6 +25,8 @@ public class SwapMng : SingleTonOnly<SwapMng>
     }
     public void SetSelectTile(Tile targetTile)
     {
+        if (isSwap)
+            return;
         m_CurSelectTile = targetTile;
     }
 
@@ -27,6 +34,7 @@ public class SwapMng : SingleTonOnly<SwapMng>
     {
         if (m_CurSelectTile == null)
             return;
+        isSwap = true;
         m_SwapTile.OnSwapSetting(m_CurSelectTile, targetTile);
         ClearSelectTile();
         StartCoroutine(SwapTile());
@@ -34,11 +42,13 @@ public class SwapMng : SingleTonOnly<SwapMng>
 
     IEnumerator SwapTile()
     {
-        for (float i = 0; i <= 1.0f; i += Time.deltaTime)
+        float i = 0;
+        while(!m_SwapTile.OnSwap(i))
         {
-            m_SwapTile.OnSwap(i);
+            i += Time.deltaTime * m_SwapSpeed;
             yield return null;
         }
+        isSwap = false;
     }
     
 }

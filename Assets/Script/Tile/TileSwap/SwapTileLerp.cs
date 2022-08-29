@@ -9,10 +9,11 @@ public class SwapTileLerp : ISwap
     Vector2 m_FirstEndTarget;
     Vector2 m_SecondEndTarget;
 
-    public void OnSwap(float moveParsent)
+    public bool OnSwap(float moveParsent)
     {
         m_firstTile.transform.position = Vector2.Lerp(m_SecondEndTarget, m_FirstEndTarget, moveParsent);
         m_SecondTile.transform.position = Vector2.Lerp(m_FirstEndTarget, m_SecondEndTarget, moveParsent);
+        return moveParsent >= 1.0f;
     }
 
     public void OnSwapSetting(Tile firstTarget, Tile secondTarget)

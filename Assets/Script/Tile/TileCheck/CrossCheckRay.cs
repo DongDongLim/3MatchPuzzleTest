@@ -8,11 +8,11 @@ public class CrossCheckRay : ICrossCheck
 
     Vector2[] m_DirVector = { Vector2.up, Vector2.down, Vector2.left, Vector2.right, Vector2.zero };
 
-    List<int> m_checkList;
+    List<int> m_checkList = new List<int>();
 
     public List<int> CrossChecking(Transform mine)
     {
-        m_checkList = new List<int>();
+        m_checkList.Clear();
 
         m_hit = new RaycastHit2D[m_DirVector.Length];
 
