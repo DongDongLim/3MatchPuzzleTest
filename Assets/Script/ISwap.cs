@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ISwap
 {
-    void OnSwap(Transform firstTarget, Transform secondTarget);
+    void OnSwap(Tile firstTarget, Tile secondTarget, float moveParsent);
 }
