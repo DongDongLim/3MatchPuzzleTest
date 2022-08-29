@@ -30,15 +30,15 @@ public class TileCheck : MonoBehaviour
 
     void WidthReSetChecking()
     {
-        CorReSetChecking(true);
+        ReSetChecking(true);
     }
 
     void HeightReSetChecking()
     {
-        CorReSetChecking(false);
+        ReSetChecking(false);
     }
 
-    void CorReSetChecking(bool isWidth)
+    void ReSetChecking(bool isWidth)
     {
         for (int i = 0; i < (isWidth ? SharedData.instance.MaxWidth : SharedData.instance.MaxHight); ++i)
         {
@@ -46,14 +46,14 @@ public class TileCheck : MonoBehaviour
 
             if (m_matchTile.Count >= 3)
             {
-                foreach (Tile tile in m_matchTile)
+                for(int j = 0; j < m_matchTile.Count; j += 3)
                 {
-                    m_Mutex.Enqueue(tile.ReSetting);
-                    tile.ReSetting(this);
+                    m_Mutex.Enqueue(m_matchTile[j].ReSetting);
                 }
                 m_matchTile.Clear();
             }
         }
+        m_Mutex.FirstCall(this);
     }
 
     public Mutex<TileCheck> GetMutex()
