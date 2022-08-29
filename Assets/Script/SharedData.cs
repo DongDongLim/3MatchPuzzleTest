@@ -25,6 +25,8 @@ public class SharedData : SingleTonOnly<SharedData>
     [SerializeField]
     private float m_NodeDis;
 
+    private int m_ActiveTileCount;
+
     public UnityAction OnStartGame;
 
     public int TileSize { get { return m_TileSize; } }
@@ -60,11 +62,21 @@ public class SharedData : SingleTonOnly<SharedData>
     {
         m_NodeIndexs = new int[m_MaxHeight, m_MaxWidth];
         m_MaxPoolCount = m_MaxWidth * m_MaxHeight;
+        m_ActiveTileCount = 0;
         OnStartGame += SetNodeDis;
+    }
+
+    public void InitColorTile()
+    {
+        if (m_MaxPoolCount == m_ActiveTileCount)
+            OnStartGame?.Invoke();
+        else
+            ++m_ActiveTileCount;
     }
 
     public void SetNodeDis()
     {
+        Debug.Log(true);
         m_NodeDis = (GetNodePosition(1) - GetNodePosition(0)).x;
     }
 }

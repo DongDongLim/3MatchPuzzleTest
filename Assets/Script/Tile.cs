@@ -12,14 +12,9 @@ public abstract class Tile : MonoBehaviour
         get { return m_TileNum; }
     }
 
-    [SerializeField]
-    protected int m_MaxSize;
-
     protected RandNum m_RandNum;
     
     protected ICrossCheck m_CrossCheck;
-
-    protected Mutex<TileCheck> m_Mutex;
 
     public int m_PositionIndex;
 

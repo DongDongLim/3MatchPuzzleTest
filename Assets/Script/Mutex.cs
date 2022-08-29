@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Events;
 
-public class Mutex : MonoBehaviour
+public class Mutex
 {
     Queue<UnityAction> m_Array = new Queue<UnityAction>();
     public void Enqueue(UnityAction value)
@@ -27,7 +26,7 @@ public class Mutex : MonoBehaviour
     }
 }
 
-public class Mutex<T> : MonoBehaviour
+public class Mutex<T>
 {
     Queue<UnityAction<T>> m_Array = new Queue<UnityAction<T>>();
     public void Enqueue(UnityAction<T> value)

@@ -18,19 +18,16 @@ public class GameMng : MonoBehaviour
     private void Start()
     {
         CreateTile();
-        Invoke("StartTest", 1f);
     }
-    void StartTest()
-    {
-        SharedData.instance.OnStartGame?.Invoke();
 
-    }
     private void CreateTile()
     {
         for (int i = 0; i < SharedData.instance.MaxPoolCount; ++i)
         {
             m_Pooling.Push(Instantiate(m_TilePrefab, transform, false));
-            ActiveTile(i).transform.position = new Vector3( SharedData.instance.GetNodePosition(i).x, SharedData.instance.GetNodePosition(i).y, 0);
+            ActiveTile(i).transform.position
+                = new Vector3( SharedData.instance.GetNodePosition(i).x, SharedData.instance.GetNodePosition(i).y, 0);
+            SharedData.instance.InitColorTile();
         }
     }
 

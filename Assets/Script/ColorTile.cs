@@ -12,7 +12,7 @@ public class ColorTile : Tile
 
     private void OnEnable()
     {
-        Init(Random.Range(0, m_MaxSize));
+        Init(Random.Range(0, m_color.Length));
     }
 
     private void Init(int num)
@@ -24,9 +24,13 @@ public class ColorTile : Tile
     public override void ReSetting(TileCheck tileCheck)
     {
         List<int> exIndex = m_CrossCheck.CrossChecking(transform);
-        m_Mutex = tileCheck.GetMutex();
+
+        Mutex<TileCheck> m_Mutex = tileCheck.GetMutex();
+
         Init(m_RandNum.OvelapRandNum(exIndex, m_color.Length));
+
         m_Mutex.Dequeue();
+
         if (!m_Mutex.Empty())
             m_Mutex.FirstCall(tileCheck);
     }
