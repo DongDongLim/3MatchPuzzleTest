@@ -32,7 +32,7 @@ public class ColorTile : Tile
 
     public override void ReSetting(TileCheck tileCheck)
     {
-        List<int> exIndex = m_CrossCheck.CrossChecking(this);
+        List<int> exIndex = m_CrossCheck.CrossChecking(transform);
         m_Mutex = tileCheck.GetMutex();
         Init(m_RandNum.OvelapRandNum(exIndex, m_color.Length), tileCheck);
     }

@@ -65,7 +65,6 @@ public class SharedData : SingleTonOnly<SharedData>
 
     public void SetNodeDis()
     {
-        m_NodeDis = (int)(GetNodePosition(1) - GetNodePosition(0)).magnitude;
-        Debug.Log(true);
+        m_NodeDis = (GetNodePosition(1) - GetNodePosition(0)).x;
     }
 }
