@@ -56,8 +56,6 @@ public class SharedData : SingleTonOnly<SharedData>
         return m_Nodes.GetPuzzleNode(GetNodeIndexs(height, width));
     }
 
-
-
     protected override void OnAwake()
     {
         m_NodeIndexs = new int[m_MaxHeight, m_MaxWidth];

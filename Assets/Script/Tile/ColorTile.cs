@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class ColorTile : Tile
+public class ColorTile : Tile, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler
 {
     Color[] m_color = { Color.red, Color.green, Color.blue, Color.black, Color.white, Color.yellow };
 
@@ -35,5 +36,18 @@ public class ColorTile : Tile
             m_Mutex.FirstCall(tileCheck);
     }
 
-    
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        SwapMng.instance.SetSelectTile(this);
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        SwapMng.instance.ClearSelectTile();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        SwapMng.instance.SetSwapTile(this);
+    }
 }
