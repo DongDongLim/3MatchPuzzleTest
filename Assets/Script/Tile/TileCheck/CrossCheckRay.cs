@@ -8,9 +8,9 @@ public class CrossCheckRay : ICrossCheck
 
     Vector2[] m_DirVector = { Vector2.up, Vector2.down, Vector2.left, Vector2.right, Vector2.zero };
 
-    List<int> m_checkList = new List<int>();
+    List<Tile> m_checkList = new List<Tile>();
 
-    public List<int> CrossChecking(Transform mine)
+    public List<Tile> CrossChecking(Transform mine)
     {
         m_checkList.Clear();
 
@@ -22,7 +22,7 @@ public class CrossCheckRay : ICrossCheck
 
             if (m_hit[i].collider != null)
             {
-                m_checkList.Add(m_hit[i].transform.GetComponent<Tile>().TileNum);
+                m_checkList.Add(m_hit[i].transform.GetComponent<Tile>());
             }
         }
 

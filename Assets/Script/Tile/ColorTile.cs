@@ -11,6 +11,8 @@ public class ColorTile : Tile, IPointerDownHandler, IPointerUpHandler, IPointerE
     [SerializeField]
     Image m_TileImg;
 
+    List<int> exIndex = new List<int>();
+
     private void OnEnable()
     {
         Init(Random.Range(0, m_color.Length));
@@ -24,7 +26,12 @@ public class ColorTile : Tile, IPointerDownHandler, IPointerUpHandler, IPointerE
 
     public override void ReSetting(TileCheck tileCheck)
     {
-        List<int> exIndex = m_CrossCheck.CrossChecking(transform);
+        CrossCheck();
+
+        exIndex.Clear();
+
+        foreach (var crossTile in m_CrossTile)
+            exIndex.Add(crossTile.TileNum);
 
         Mutex<TileCheck> m_Mutex = tileCheck.GetMutex();
 

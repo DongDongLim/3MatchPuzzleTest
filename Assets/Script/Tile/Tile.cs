@@ -16,6 +16,8 @@ public abstract class Tile : MonoBehaviour
     
     protected ICrossCheck m_CrossCheck;
 
+    protected List<Tile> m_CrossTile;
+
     public int m_PositionIndex;
 
     private void Awake()
@@ -28,6 +30,17 @@ public abstract class Tile : MonoBehaviour
     {
         return m_TileNum == Tileactor.m_TileNum;
     }
+
     public abstract void ReSetting(TileCheck tileCheck);
 
+    public void CrossCheck()
+    {
+        m_CrossTile = m_CrossCheck.CrossChecking(transform);
+    }
+
+    public bool IsCrossTile(Tile tile)
+    {
+        CrossCheck();
+        return m_CrossTile.Contains(tile);
+    }
 }

@@ -34,6 +34,8 @@ public class SwapMng : SingleTonOnly<SwapMng>
     {
         if (m_CurSelectTile == null)
             return;
+        if (!m_CurSelectTile.IsCrossTile(targetTile))
+            return;
         isSwap = true;
         m_SwapTile.OnSwapSetting(m_CurSelectTile, targetTile);
         ClearSelectTile();
