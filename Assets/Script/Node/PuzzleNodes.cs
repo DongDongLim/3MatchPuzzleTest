@@ -21,5 +21,8 @@ public class PuzzleNodes : MonoBehaviour
     {
         return transform.GetChild(index).position;
     }
-
+    public Vector2 GetPuzzleCoordinate(int index)
+    {
+        return new Vector2(index / m_MaxWidth, index % m_MaxWidth); ;
+    }
 }

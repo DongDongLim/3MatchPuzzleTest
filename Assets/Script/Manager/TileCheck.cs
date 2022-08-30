@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TileCheck : MonoBehaviour
+public class TileCheck
 {
     ILineCheck m_LineCheck;
+
+    ICrossCheck m_CrossAllCheck;
 
     [SerializeField]
     List<Tile> m_matchTile;
@@ -13,10 +15,11 @@ public class TileCheck : MonoBehaviour
     Mutex<TileCheck> m_Mutex;
 
 
-    private void Awake()
+    public TileCheck()
     {
         m_LineCheck = new LineCheckRay();
-        m_matchTile = new List<Tile>(SharedData.instance.MaxWidth);
+        m_CrossAllCheck = new CrossCheckAll();
+        m_matchTile = new List<Tile>(SharedData.instance.MaxWidth * 2);
         m_Mutex = new Mutex<TileCheck>();
         SharedData.instance.OnStartGame += InitLineCheckAll;
     }
@@ -26,7 +29,6 @@ public class TileCheck : MonoBehaviour
         WidthReSetChecking();
         HeightReSetChecking();
     }
-
 
     void WidthReSetChecking()
     {
@@ -60,4 +62,27 @@ public class TileCheck : MonoBehaviour
     {
         return m_Mutex;
     }
+
+    public void CrossTileCheck(Transform stdTransform)
+    {
+        m_matchTile = m_CrossAllCheck.CrossChecking(stdTransform);
+    }
+
+    public bool IsMatchTile()
+    {
+        return m_matchTile.Count != 0;
+    }
+
+    public void MatchTileBreak()
+    {
+        foreach (var tile in m_matchTile)
+        {
+            if(tile.gameObject.activeSelf)
+            tile.m_OnBreakTile?.Invoke(tile.gameObject);
+        }
+        m_matchTile.Clear();
+    }
+
+
+
 }

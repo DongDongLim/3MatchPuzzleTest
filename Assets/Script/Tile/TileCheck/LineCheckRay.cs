@@ -52,7 +52,10 @@ public class LineCheckRay : ILineCheck
                 if (tileList.Count >= 3)
                 {
                     foreach (var tile in tileList)
+                    {
+                        if(matchTile.Count == 0 || !matchTile.Contains(tile))
                         matchTile.Add(tile);
+                    }
                 }
                 tileList.Clear();
                 tileList.Add(m_hit[i].transform.GetComponent<Tile>());
@@ -61,7 +64,10 @@ public class LineCheckRay : ILineCheck
         if (tileList.Count >= 3)
         {
             foreach (var tile in tileList)
-                matchTile.Add(tile);
+            {
+                if (matchTile.Count == 0 || !matchTile.Contains(tile))
+                    matchTile.Add(tile);
+            }
         }
     }
 }

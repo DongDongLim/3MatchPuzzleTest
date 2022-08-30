@@ -56,6 +56,11 @@ public class SharedData : SingleTonOnly<SharedData>
         return m_Nodes.GetPuzzleNode(GetNodeIndexs(height, width));
     }
 
+    public Vector2 GetPuzzleCoordinate(int index)
+    {
+        return m_Nodes.GetPuzzleCoordinate(index);
+    }
+
     protected override void OnAwake()
     {
         m_NodeIndexs = new int[m_MaxHeight, m_MaxWidth];

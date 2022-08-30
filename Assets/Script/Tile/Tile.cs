@@ -13,12 +13,16 @@ public abstract class Tile : MonoBehaviour
     }
 
     protected RandNum m_RandNum;
-    
+
     protected ICrossCheck m_CrossCheck;
 
     protected List<Tile> m_CrossTile;
 
     public int m_PositionIndex;
+
+    public delegate void OnBreakTile(GameObject tileObj);
+
+    public OnBreakTile m_OnBreakTile;
 
     private void Awake()
     {
@@ -42,5 +46,10 @@ public abstract class Tile : MonoBehaviour
     {
         CrossCheck();
         return m_CrossTile.Contains(tile);
+    }
+
+    public void TileBreak()
+    {
+        m_OnBreakTile(gameObject);
     }
 }
