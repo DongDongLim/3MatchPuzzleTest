@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameMng : MonoBehaviour
+public class GameMng : SingleTonOnly<GameMng>
 {
     [SerializeField]
     float m_DelayTime;
@@ -18,10 +18,9 @@ public class GameMng : MonoBehaviour
     ObjectPooling m_Pooling;
 
     WaitForSeconds m_CorDelayTime;
-    
-    
 
-    private void Awake()
+
+    protected override void OnAwake()
     {
         m_Pooling = new ObjectPooling();
         m_CorDelayTime = new WaitForSeconds(m_DelayTime);
@@ -65,4 +64,5 @@ public class GameMng : MonoBehaviour
             + (Vector2.up * SharedData.instance.NodeDis * (SharedData.instance.GetPuzzleCoordinate(tile.m_PositionIndex).x + 1));
         m_Pooling.Push(tile.gameObject);
     }
+
 }

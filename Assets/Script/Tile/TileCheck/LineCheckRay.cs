@@ -28,9 +28,9 @@ public class LineCheckRay : ILineCheck
         {
             m_distance = SharedData.instance.MaxHight - 1;
 
-            m_dir = Vector2.down;
+            m_dir = Vector2.up;
 
-            m_hit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(0, stdIndex),
+            m_hit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(m_distance, stdIndex),
                 m_dir, SharedData.instance.NodeDis * m_distance, LayerMask.GetMask("Tile"));
         }
 

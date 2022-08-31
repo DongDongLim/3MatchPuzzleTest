@@ -9,7 +9,6 @@ public class SwapMng : SingleTonOnly<SwapMng>
     Tile m_CurSelectTile;
     Tile m_CurSwapTile;
 
-
     bool isSwap = false;
 
     bool isSwapRetrun = false;

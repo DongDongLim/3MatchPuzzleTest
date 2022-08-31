@@ -16,8 +16,6 @@ public class TileCheck
 
     Dictionary<int, List<int>> m_emptyNodes;
 
-    List<int> m_emptyIndex;
-
     public TileCheck()
     {
         m_LineCheck = new LineCheckRay();
@@ -88,12 +86,37 @@ public class TileCheck
         {
             if (tile.gameObject.activeSelf)
             {
-                m_emptyNodes.TryGetValue((int)SharedData.instance.GetPuzzleCoordinate(tile.m_PositionIndex).y, out m_emptyIndex);
-                m_emptyIndex.Add(tile.m_PositionIndex);
+                Vector2 nodeCoordinate = SharedData.instance.GetPuzzleCoordinate(tile.m_PositionIndex);
+                m_emptyNodes[(int)nodeCoordinate.y].Add((int)nodeCoordinate.x);
                 tile.m_OnBreakTile?.Invoke(tile);
             }
         }
         m_matchTile.Clear();
+        ReActiveTile();
+    }
+
+    RaycastHit2D[] m_rayHit;
+
+    public void  ReActiveTile()
+    {
+        foreach(var node in m_emptyNodes)
+        {
+            if (node.Value.Count == 0)
+                continue;
+
+            for (int i = 0; i < node.Value.Count; ++i)
+            {
+                GameObject obj = GameMng.instance.ActiveTile(node.Key - SharedData.instance.MaxWidth);
+                obj.transform.position = (Vector2)obj.transform.position + (Vector2.up * SharedData.instance.NodeDis * i);
+            }
+            node.Value.Sort();
+            m_rayHit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(node.Value[node.Value.Count - 1], node.Key),
+                Vector2.up, SharedData.instance.NodeDis * (SharedData.instance.MaxHight - 1), LayerMask.GetMask("Tile"));
+            foreach (var hit in m_rayHit)
+                hit.transform.GetComponent<IMove>().OnMove(hit.transform.GetComponent<Tile>().m_PositionIndex + (node.Value.Count * SharedData.instance.MaxWidth), null);
+        }
+        for (int i = 0; i < SharedData.instance.MaxWidth; ++i)
+            m_emptyNodes[i].Clear();
     }
 
 
