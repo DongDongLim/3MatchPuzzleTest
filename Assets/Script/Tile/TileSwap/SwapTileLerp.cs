@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+
 public class SwapTileLerp : ISwap
 {
     int m_SwapNum;
@@ -15,12 +16,11 @@ public class SwapTileLerp : ISwap
     IEnumerator Swap()
     {
         float t = 0;
-        while (t <= 1)
+        while (t < 1)
         {
-
+            t += Time.deltaTime * SharedData.instance.SwapSpeed; 
             m_firstTile.transform.position = Vector2.Lerp(m_SecondEndTarget, m_FirstEndTarget, t);
             m_SecondTile.transform.position = Vector2.Lerp(m_FirstEndTarget, m_SecondEndTarget, t);
-            t += Time.deltaTime * SharedData.instance.SwapSpeed; 
             yield return null;
         }
         m_SwapNum = m_firstTile.m_PositionIndex;
@@ -36,6 +36,6 @@ public class SwapTileLerp : ISwap
         m_FirstEndTarget = SharedData.instance.GetNodePosition(m_SecondTile.m_PositionIndex);
         m_SecondEndTarget = SharedData.instance.GetNodePosition(m_firstTile.m_PositionIndex);
         m_MoveEnbAction = swapAction;
-        Swap();
+        SharedData.instance.OnStartCoroutine(Swap());
     }
 }

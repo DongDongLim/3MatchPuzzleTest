@@ -76,4 +76,9 @@ public class SharedData : SingleTonOnly<SharedData>
     {
         m_NodeDis = (GetNodePosition(1) - GetNodePosition(0)).x;
     }
+
+    public void OnStartCoroutine(IEnumerator cor)
+    {
+        StartCoroutine(cor);
+    }
 }

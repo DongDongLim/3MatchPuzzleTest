@@ -14,6 +14,9 @@ public class TileCheck
 
     Mutex<TileCheck> m_Mutex;
 
+    Dictionary<int, List<int>> m_emptyNodes;
+
+    List<int> m_emptyIndex;
 
     public TileCheck()
     {
@@ -21,6 +24,11 @@ public class TileCheck
         m_CrossAllCheck = new CrossCheckAll();
         m_matchTile = new List<Tile>(SharedData.instance.MaxWidth * 2);
         m_Mutex = new Mutex<TileCheck>();
+        m_emptyNodes = new Dictionary<int, List<int>>();
+        for(int i = 0; i < SharedData.instance.MaxWidth; ++i)
+        {
+            m_emptyNodes.Add(i, new List<int>());
+        }
         SharedData.instance.OnStartGame += InitLineCheckAll;
     }
 
@@ -78,8 +86,12 @@ public class TileCheck
     {
         foreach (var tile in m_matchTile)
         {
-            if(tile.gameObject.activeSelf)
-            tile.m_OnBreakTile?.Invoke(tile);
+            if (tile.gameObject.activeSelf)
+            {
+                m_emptyNodes.TryGetValue((int)SharedData.instance.GetPuzzleCoordinate(tile.m_PositionIndex).y, out m_emptyIndex);
+                m_emptyIndex.Add(tile.m_PositionIndex);
+                tile.m_OnBreakTile?.Invoke(tile);
+            }
         }
         m_matchTile.Clear();
     }

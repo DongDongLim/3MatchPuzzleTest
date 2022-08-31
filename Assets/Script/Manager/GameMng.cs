@@ -19,6 +19,7 @@ public class GameMng : MonoBehaviour
 
     WaitForSeconds m_CorDelayTime;
     
+    
 
     private void Awake()
     {
