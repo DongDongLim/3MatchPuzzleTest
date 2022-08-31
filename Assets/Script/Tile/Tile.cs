@@ -20,7 +20,7 @@ public abstract class Tile : MonoBehaviour
 
     public int m_PositionIndex;
 
-    public delegate void OnBreakTile(GameObject tileObj);
+    public delegate void OnBreakTile(Tile tile);
 
     public OnBreakTile m_OnBreakTile;
 
@@ -50,6 +50,6 @@ public abstract class Tile : MonoBehaviour
 
     public void TileBreak()
     {
-        m_OnBreakTile(gameObject);
+        m_OnBreakTile(this);
     }
 }

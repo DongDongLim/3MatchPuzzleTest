@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public class SharedData : SingleTonOnly<SharedData>
 {
+    [SerializeField]
+    private int m_SwapSpeed;
 
     [SerializeField]
     private PuzzleNodes m_Nodes;
@@ -26,6 +28,8 @@ public class SharedData : SingleTonOnly<SharedData>
     private float m_NodeDis;
 
     public UnityAction OnStartGame;
+
+    public int SwapSpeed { get { return m_SwapSpeed; } }
 
     public int TileSize { get { return m_TileSize; } }
 

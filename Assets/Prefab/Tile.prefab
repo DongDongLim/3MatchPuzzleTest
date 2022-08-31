@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 323ca30de7d3dd24d962c858a052d18b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxSize: 6
+  m_TileNum: 0
   m_PositionIndex: 0
   m_TileImg: {fileID: 8322297894603045092}
 --- !u!114 &3622300305677006536
@@ -79,7 +79,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

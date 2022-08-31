@@ -58,8 +58,10 @@ public class GameMng : MonoBehaviour
         return m_activeObj;
     }
 
-    public void InActiveTile(GameObject obj)
+    public void InActiveTile(Tile tile)
     {
-        m_Pooling.Push(obj);
+        tile.transform.position = (Vector2)tile.transform.position
+            + (Vector2.up * SharedData.instance.NodeDis * (SharedData.instance.GetPuzzleCoordinate(tile.m_PositionIndex).x + 1));
+        m_Pooling.Push(tile.gameObject);
     }
 }

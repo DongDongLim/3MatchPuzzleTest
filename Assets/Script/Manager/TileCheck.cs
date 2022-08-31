@@ -79,7 +79,7 @@ public class TileCheck
         foreach (var tile in m_matchTile)
         {
             if(tile.gameObject.activeSelf)
-            tile.m_OnBreakTile?.Invoke(tile.gameObject);
+            tile.m_OnBreakTile?.Invoke(tile);
         }
         m_matchTile.Clear();
     }

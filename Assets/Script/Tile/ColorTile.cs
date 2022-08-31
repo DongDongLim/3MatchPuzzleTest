@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
-public class ColorTile : Tile, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler
+public class ColorTile : Tile, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IMove
 {
     Color[] m_color = { Color.red, Color.green, Color.blue, Color.black, Color.white, Color.yellow };
 
@@ -12,6 +13,8 @@ public class ColorTile : Tile, IPointerDownHandler, IPointerUpHandler, IPointerE
     Image m_TileImg;
 
     List<int> exIndex = new List<int>();
+
+    UnityAction m_MoveEndAction;
 
     private void OnEnable()
     {
@@ -56,5 +59,24 @@ public class ColorTile : Tile, IPointerDownHandler, IPointerUpHandler, IPointerE
     public void OnPointerEnter(PointerEventData eventData)
     {
         SwapMng.instance.SetSwapTile(this);
+    }
+
+    public void OnMove(int targetIndex, UnityAction endAction)
+    {
+        m_MoveEndAction = endAction;
+        StartCoroutine(CorTileMove(targetIndex));
+    }
+
+    IEnumerator CorTileMove(int targetIndex)
+    {
+        float t = 0;
+        Vector2 startPosition = transform.position;
+        while(t <= 1)
+        {
+            t += Time.deltaTime * SharedData.instance.SwapSpeed;
+            transform.position = Vector2.Lerp(startPosition, SharedData.instance.GetNodePosition(targetIndex), t);
+            yield return null;
+        }
+        m_MoveEndAction?.Invoke();
     }
 }

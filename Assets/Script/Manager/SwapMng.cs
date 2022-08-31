@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class SwapMng : SingleTonOnly<SwapMng>
 {
-    [SerializeField]
-    int m_SwapSpeed;
+    SwapController m_SwapTile;
 
     Tile m_CurSelectTile;
     Tile m_CurSwapTile;
 
-    ISwap m_SwapTile;
 
     bool isSwap = false;
 
@@ -21,7 +19,7 @@ public class SwapMng : SingleTonOnly<SwapMng>
 
     protected override void OnAwake()
     {
-        m_SwapTile = new SwapTileLerp();
+        m_SwapTile = new SwapControllerIMove();
         m_TileChecker = new TileCheck();
     }
 
@@ -49,25 +47,17 @@ public class SwapMng : SingleTonOnly<SwapMng>
             return;
         isSwap = true;
         m_CurSwapTile = targetTile;
-        m_SwapTile.OnSwapSetting(m_CurSelectTile, m_CurSwapTile);
-        StartCoroutine(SwapTile());
+        m_SwapTile.OnSwap(m_CurSelectTile, m_CurSwapTile, SwapAction);
     }
 
-    IEnumerator SwapTile()
+    public void SwapAction()
     {
-        float i = 0;
-        while(!m_SwapTile.OnSwap(i))
-        {
-            i += Time.deltaTime * m_SwapSpeed;
-            yield return null;
-        }
-
-        if(isSwapRetrun)
+        if (isSwapRetrun)
         {
             isSwapRetrun = false;
             isSwap = false;
             ClearSelectTile();
-            yield break;
+            return;
         }
 
         m_TileChecker.CrossTileCheck(m_CurSelectTile.transform, m_CurSwapTile.transform);
@@ -80,10 +70,8 @@ public class SwapMng : SingleTonOnly<SwapMng>
         }
         else
         {
-            m_SwapTile.OnSwapSetting(m_CurSwapTile, m_CurSelectTile);
             isSwapRetrun = true;
-            StartCoroutine(SwapTile());
+            m_SwapTile.OnSwap(m_CurSwapTile, m_CurSelectTile, SwapAction);
         }
-    }
-    
+    }    
 }

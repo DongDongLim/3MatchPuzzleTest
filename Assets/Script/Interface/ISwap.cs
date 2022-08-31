@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public interface ISwap
 {
-    void OnSwapSetting(Tile firstTarget, Tile secondTarget);
-    bool OnSwap(float moveParsent);
+    void OnSwap(Tile firstTarget, Tile secondTarget, UnityAction swapAction = null);
 }
