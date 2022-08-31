@@ -63,9 +63,10 @@ public class TileCheck
         return m_Mutex;
     }
 
-    public void CrossTileCheck(Transform stdTransform)
+    public void CrossTileCheck(Transform stdFirstTransform, Transform stdSecondTransform)
     {
-        m_matchTile = m_CrossAllCheck.CrossChecking(stdTransform);
+        m_matchTile.AddRange(m_CrossAllCheck.CrossChecking(stdFirstTransform));
+        m_matchTile.AddRange(m_CrossAllCheck.CrossChecking(stdSecondTransform));
     }
 
     public bool IsMatchTile()

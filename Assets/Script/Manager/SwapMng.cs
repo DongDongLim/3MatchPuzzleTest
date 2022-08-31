@@ -70,9 +70,7 @@ public class SwapMng : SingleTonOnly<SwapMng>
             yield break;
         }
 
-        m_TileChecker.CrossTileCheck(m_CurSelectTile.transform);
-
-        m_TileChecker.CrossTileCheck(m_CurSwapTile.transform);
+        m_TileChecker.CrossTileCheck(m_CurSelectTile.transform, m_CurSwapTile.transform);
 
         if (m_TileChecker.IsMatchTile())
         {
