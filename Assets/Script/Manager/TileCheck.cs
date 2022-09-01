@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -66,6 +68,8 @@ public class TileCheck
 
     public void MatchTileBreak()
     {
+        if (!IsMatchTile())
+            return;
         foreach (var tile in m_matchTile)
         {
             if (tile.gameObject.activeSelf)
@@ -79,8 +83,8 @@ public class TileCheck
         SharedData.instance.OnStartCoroutine(ReActiveTile());
     }
 
-    RaycastHit2D[] m_rayHit;
-    List<GameObject> m_TileMove = new List<GameObject>(20);
+    List<Tile> m_MoveTile = new List<Tile>(9);
+    List<Tile> m_TileMove = new List<Tile>(20);
 
     public IEnumerator  ReActiveTile()
     {
@@ -90,28 +94,39 @@ public class TileCheck
             if (node.Value.Count == 0)
                 continue;
 
+            node.Value.Sort();
+
+            m_LineCheck.LineChecking(false, node.Key, m_MoveTile, false, node.Value[node.Value.Count - 1]);
+            
+            foreach (var hit in m_MoveTile)
+            {
+                hit.m_PositionIndex = hit.m_PositionIndex + (node.Value.Count * SharedData.instance.MaxWidth);
+                m_TileMove.Add(hit);
+            }
+
             for (int i = 0; i < node.Value.Count; ++i)
             {
-                GameObject obj = SharedData.instance.TileMaker.ActiveTile(node.Key - (SharedData.instance.MaxWidth * (i + 1)));
+                GameObject obj = SharedData.instance.TileMaker.ActiveTile(node.Key + (SharedData.instance.MaxWidth * (node.Value.Count - 1 - i)));
                 obj.transform.position = (Vector2)obj.transform.position + (Vector2.up * SharedData.instance.NodeDis * i);
+                m_TileMove.Add(obj.GetComponent<Tile>());
             }
-            node.Value.Sort();
+
             yield return null;
-            m_rayHit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(node.Value[node.Value.Count - 1], node.Key),
-                Vector2.up, SharedData.instance.NodeDis * (SharedData.instance.MaxHight - 1), LayerMask.GetMask("Tile"));
-            foreach (var hit in m_rayHit)
-            {
-                hit.transform.GetComponent<Tile>().m_PositionIndex = hit.transform.GetComponent<Tile>().m_PositionIndex + (node.Value.Count * SharedData.instance.MaxWidth);
-                //hit.transform.GetComponent<IMove>().OnMove(hit.transform.GetComponent<Tile>().m_PositionIndex + (node.Value.Count * SharedData.instance.MaxWidth), null);
-                m_TileMove.Add(hit.transform.gameObject);
-            }
-        }
-        foreach(var move in m_TileMove)
-        {
-            move.GetComponent<IMove>().OnMove(move.GetComponent<Tile>().m_PositionIndex, move.GetComponent<Tile>().MoveAction);
+            
+            m_MoveTile.Clear();
         }
         for (int i = 0; i < SharedData.instance.MaxWidth; ++i)
             SharedData.instance.m_emptyNodes[i].Clear();
+
+        yield return null;
+
+        foreach (var move in m_TileMove)
+        {
+            move.GetComponent<IMove>().OnMove(move.m_PositionIndex, move.MoveAction);
+        }
+        yield return new WaitForSeconds(0.5f);
+
+        MatchTileBreak();
     }
 
 

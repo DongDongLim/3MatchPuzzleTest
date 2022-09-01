@@ -13,7 +13,7 @@ public class LineCheckRay : ILineCheck
 
     List<Tile> tileList = new List<Tile>(SharedData.instance.MaxWidth);
 
-    public void LineChecking(bool isWidth, int stdIndex, List<Tile> matchTile)
+    public void LineChecking(bool isWidth, int stdIndex, List<Tile> matchTile, bool isMatch = true, int startIndex = 0)
     {
         if (isWidth)
         {
@@ -21,7 +21,7 @@ public class LineCheckRay : ILineCheck
 
             m_dir = Vector2.right;
 
-            m_hit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(stdIndex, 0),
+            m_hit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(stdIndex, startIndex),
                 m_dir, SharedData.instance.NodeDis * m_distance, LayerMask.GetMask("Tile"));
         }
         else
@@ -30,7 +30,7 @@ public class LineCheckRay : ILineCheck
 
             m_dir = Vector2.up;
 
-            m_hit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(m_distance, stdIndex),
+            m_hit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(isMatch ? m_distance : startIndex, stdIndex),
                 m_dir, SharedData.instance.NodeDis * m_distance, LayerMask.GetMask("Tile"));
         }
 
@@ -40,6 +40,13 @@ public class LineCheckRay : ILineCheck
             return;
         }
         tileList.Clear();
+
+        if(!isMatch)
+        {
+            foreach (var hit in m_hit)
+                matchTile.Add(hit.transform.GetComponent<Tile>());
+            return;
+        }
 
         tileList.Add(m_hit[0].transform.GetComponent<Tile>());
 

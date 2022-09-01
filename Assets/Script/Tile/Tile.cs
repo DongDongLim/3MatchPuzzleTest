@@ -59,6 +59,5 @@ public abstract class Tile : MonoBehaviour
     public void MoveAction()
     {
         SharedData.instance.CrossTileCheck(transform);
-        SharedData.instance.MatchTileBreak();
     }
 }
