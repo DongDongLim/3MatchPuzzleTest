@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwapMng : SingleTonOnly<SwapMng>
+public class SwapMng : MonoBehaviour
 {
     SwapController m_SwapTile;
 
@@ -13,13 +13,12 @@ public class SwapMng : SingleTonOnly<SwapMng>
 
     bool isSwapRetrun = false;
 
-    TileCheck m_TileChecker;
-
-
-    protected override void OnAwake()
+    private void Awake()
     {
         m_SwapTile = new SwapControllerIMove();
-        m_TileChecker = new TileCheck();
+        SharedData.instance.OnSelectTile = SetSelectTile;
+        SharedData.instance.OnSwapTile = SetSwapTile;
+        SharedData.instance.OnClearSelectTile = ClearSelectTile;
     }
 
     public void ClearSelectTile()
@@ -59,11 +58,11 @@ public class SwapMng : SingleTonOnly<SwapMng>
             return;
         }
 
-        m_TileChecker.CrossTileCheck(m_CurSelectTile.transform, m_CurSwapTile.transform);
+        SharedData.instance.CrossTileCheck(m_CurSelectTile.transform);
+        SharedData.instance.CrossTileCheck(m_CurSwapTile.transform);
 
-        if (m_TileChecker.IsMatchTile())
+        if (SharedData.instance.MatchTileBreak())
         {
-            m_TileChecker.MatchTileBreak();
             isSwap = false;
             ClearSelectTile();
         }

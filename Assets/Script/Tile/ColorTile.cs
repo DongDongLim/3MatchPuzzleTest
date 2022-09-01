@@ -48,17 +48,17 @@ public class ColorTile : Tile, IPointerDownHandler, IPointerUpHandler, IPointerE
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        SwapMng.instance.SetSelectTile(this);
+        SharedData.instance.OnSelectTile(this);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        SwapMng.instance.ClearSelectTile();
+        SharedData.instance.OnClearSelectTile();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        SwapMng.instance.SetSwapTile(this);
+        SharedData.instance.OnSwapTile(this);
     }
 
     public void OnMove(int targetIndex, UnityAction endAction)

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class Tile : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public abstract class Tile : MonoBehaviour
 
     public int m_PositionIndex;
 
-    public delegate void OnBreakTile(Tile tile);
+    public delegate void OnBreakTile(Tile tile, UnityAction breakAction);
 
     public OnBreakTile m_OnBreakTile;
 
@@ -50,6 +51,14 @@ public abstract class Tile : MonoBehaviour
 
     public void TileBreak()
     {
-        m_OnBreakTile(this);
+        transform.position = (Vector2)transform.position
+            + (Vector2.up * SharedData.instance.NodeDis * (SharedData.instance.GetPuzzleCoordinate(m_PositionIndex).x + 1));
+        m_OnBreakTile(this, null);
+    }
+
+    public void MoveAction()
+    {
+        SharedData.instance.CrossTileCheck(transform);
+        SharedData.instance.MatchTileBreak();
     }
 }

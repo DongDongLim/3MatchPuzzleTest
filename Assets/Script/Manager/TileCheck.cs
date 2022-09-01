@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class TileCheck
 {
+
     ILineCheck m_LineCheck;
 
     ICrossCheck m_CrossAllCheck;
@@ -14,7 +15,6 @@ public class TileCheck
 
     Mutex<TileCheck> m_Mutex;
 
-    Dictionary<int, List<int>> m_emptyNodes;
 
     public TileCheck()
     {
@@ -22,27 +22,12 @@ public class TileCheck
         m_CrossAllCheck = new CrossCheckAll();
         m_matchTile = new List<Tile>(SharedData.instance.MaxWidth * 2);
         m_Mutex = new Mutex<TileCheck>();
-        m_emptyNodes = new Dictionary<int, List<int>>();
-        for(int i = 0; i < SharedData.instance.MaxWidth; ++i)
-        {
-            m_emptyNodes.Add(i, new List<int>());
-        }
         SharedData.instance.OnStartGame += InitLineCheckAll;
     }
 
     void InitLineCheckAll()
     {
-        WidthReSetChecking();
-        HeightReSetChecking();
-    }
-
-    void WidthReSetChecking()
-    {
         ReSetChecking(true);
-    }
-
-    void HeightReSetChecking()
-    {
         ReSetChecking(false);
     }
 
@@ -69,10 +54,9 @@ public class TileCheck
         return m_Mutex;
     }
 
-    public void CrossTileCheck(Transform stdFirstTransform, Transform stdSecondTransform)
+    public void CrossTileCheck(Transform tileTransform)
     {
-        m_matchTile.AddRange(m_CrossAllCheck.CrossChecking(stdFirstTransform));
-        m_matchTile.AddRange(m_CrossAllCheck.CrossChecking(stdSecondTransform));
+        m_matchTile.AddRange(m_CrossAllCheck.CrossChecking(tileTransform));
     }
 
     public bool IsMatchTile()
@@ -87,8 +71,8 @@ public class TileCheck
             if (tile.gameObject.activeSelf)
             {
                 Vector2 nodeCoordinate = SharedData.instance.GetPuzzleCoordinate(tile.m_PositionIndex);
-                m_emptyNodes[(int)nodeCoordinate.y].Add((int)nodeCoordinate.x);
-                tile.m_OnBreakTile?.Invoke(tile);
+                SharedData.instance.m_emptyNodes[(int)nodeCoordinate.y].Add((int)nodeCoordinate.x);
+                tile.TileBreak();
             }
         }
         m_matchTile.Clear();
@@ -96,17 +80,19 @@ public class TileCheck
     }
 
     RaycastHit2D[] m_rayHit;
+    List<GameObject> m_TileMove = new List<GameObject>(20);
 
     public IEnumerator  ReActiveTile()
     {
-        foreach(var node in m_emptyNodes)
+        m_TileMove.Clear();
+        foreach (var node in SharedData.instance.m_emptyNodes)
         {
             if (node.Value.Count == 0)
                 continue;
 
             for (int i = 0; i < node.Value.Count; ++i)
             {
-                GameObject obj = GameMng.instance.ActiveTile(node.Key - (SharedData.instance.MaxWidth * (i + 1)));
+                GameObject obj = SharedData.instance.TileMaker.ActiveTile(node.Key - (SharedData.instance.MaxWidth * (i + 1)));
                 obj.transform.position = (Vector2)obj.transform.position + (Vector2.up * SharedData.instance.NodeDis * i);
             }
             node.Value.Sort();
@@ -114,10 +100,18 @@ public class TileCheck
             m_rayHit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(node.Value[node.Value.Count - 1], node.Key),
                 Vector2.up, SharedData.instance.NodeDis * (SharedData.instance.MaxHight - 1), LayerMask.GetMask("Tile"));
             foreach (var hit in m_rayHit)
-                hit.transform.GetComponent<IMove>().OnMove(hit.transform.GetComponent<Tile>().m_PositionIndex + (node.Value.Count * SharedData.instance.MaxWidth), null);
+            {
+                hit.transform.GetComponent<Tile>().m_PositionIndex = hit.transform.GetComponent<Tile>().m_PositionIndex + (node.Value.Count * SharedData.instance.MaxWidth);
+                //hit.transform.GetComponent<IMove>().OnMove(hit.transform.GetComponent<Tile>().m_PositionIndex + (node.Value.Count * SharedData.instance.MaxWidth), null);
+                m_TileMove.Add(hit.transform.gameObject);
+            }
+        }
+        foreach(var move in m_TileMove)
+        {
+            move.GetComponent<IMove>().OnMove(move.GetComponent<Tile>().m_PositionIndex, move.GetComponent<Tile>().MoveAction);
         }
         for (int i = 0; i < SharedData.instance.MaxWidth; ++i)
-            m_emptyNodes[i].Clear();
+            SharedData.instance.m_emptyNodes[i].Clear();
     }
 
 
