@@ -104,10 +104,10 @@ public class TileCheck
                 m_TileMove.Add(hit);
             }
 
-            for (int i = 0; i < node.Value.Count; ++i)
+            for (int i = 1; i <= node.Value.Count; ++i)
             {
-                GameObject obj = SharedData.instance.TileMaker.ActiveTile(node.Key + (SharedData.instance.MaxWidth * (node.Value.Count - 1 - i)));
-                obj.transform.position = (Vector2)obj.transform.position + (Vector2.up * SharedData.instance.NodeDis * i);
+                GameObject obj = SharedData.instance.TileMaker.ActiveTile(node.Key + (SharedData.instance.MaxWidth * (node.Value.Count - i)));
+                obj.transform.position = SharedData.instance.GetNodePosition(node.Key) + (Vector2.up * SharedData.instance.NodeDis * i);
                 m_TileMove.Add(obj.GetComponent<Tile>());
             }
 
