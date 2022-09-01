@@ -77,6 +77,7 @@ public class ColorTile : Tile, IPointerDownHandler, IPointerUpHandler, IPointerE
             transform.position = Vector2.Lerp(startPosition, SharedData.instance.GetNodePosition(targetIndex), t);
             yield return null;
         }
+        m_PositionIndex = targetIndex;
         m_MoveEndAction?.Invoke();
     }
 }

@@ -92,12 +92,12 @@ public class TileCheck
             }
         }
         m_matchTile.Clear();
-        ReActiveTile();
+        SharedData.instance.OnStartCoroutine(ReActiveTile());
     }
 
     RaycastHit2D[] m_rayHit;
 
-    public void  ReActiveTile()
+    public IEnumerator  ReActiveTile()
     {
         foreach(var node in m_emptyNodes)
         {
@@ -106,10 +106,11 @@ public class TileCheck
 
             for (int i = 0; i < node.Value.Count; ++i)
             {
-                GameObject obj = GameMng.instance.ActiveTile(node.Key - SharedData.instance.MaxWidth);
+                GameObject obj = GameMng.instance.ActiveTile(node.Key - (SharedData.instance.MaxWidth * (i + 1)));
                 obj.transform.position = (Vector2)obj.transform.position + (Vector2.up * SharedData.instance.NodeDis * i);
             }
             node.Value.Sort();
+            yield return null;
             m_rayHit = Physics2D.RaycastAll(SharedData.instance.GetNodePosition(node.Value[node.Value.Count - 1], node.Key),
                 Vector2.up, SharedData.instance.NodeDis * (SharedData.instance.MaxHight - 1), LayerMask.GetMask("Tile"));
             foreach (var hit in m_rayHit)
