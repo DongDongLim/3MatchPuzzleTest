@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class GameMng : MonoBehaviour
 {
+    
     private void Awake()
     {
+        m_TileMaker = new TileMake();
         StartCoroutine(CorUpdate());
     }
 
     IEnumerator CorUpdate()
     {
-        yield return new WaitForFixedUpdate();
+        CreateTile();
+        yield return null;
         SharedData.instance.OnStartGame?.Invoke();
     }
+
 }

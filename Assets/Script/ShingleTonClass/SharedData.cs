@@ -34,8 +34,6 @@ public class SharedData : SingleTonOnly<SharedData>
 
     #region 타일 풀링
 
-    private TileMake m_TileMaker;
-
     [SerializeField]
     private GameObject m_TilePrefab;
 
@@ -108,7 +106,6 @@ public class SharedData : SingleTonOnly<SharedData>
     {
         m_NodeIndexs = new int[m_MaxHeight, m_MaxWidth];
         m_MaxPoolCount = m_MaxWidth * m_MaxHeight;
-        m_TileMaker = new TileMake();
         m_TileChecker = new TileCheck();
         m_emptyNodes = new Dictionary<int, List<int>>();
         for (int i = 0; i < MaxWidth; ++i)
@@ -116,31 +113,13 @@ public class SharedData : SingleTonOnly<SharedData>
             m_emptyNodes.Add(i, new List<int>());
         }
         SetNodeDis();
-        CreateTile();
-    }
-
-    public void CreateTile()
-    {
-        GameObject m_activeObj;
-        for (int i = 0; i < MaxPoolCount; ++i)
-        {
-            m_TileMaker.InActiveTile(Instantiate(m_TilePrefab, m_TileParant, false));
-            m_activeObj = m_TileMaker.ActiveTile(i);
-            m_activeObj.transform.position = new Vector3(GetNodePosition(i).x, GetNodePosition(i).y, 0);
-            m_activeObj.GetComponent<Tile>().m_OnBreakTile = new Tile.OnBreakTile(m_TileMaker.InActiveTile);
-        }
     }
 
     public void SetNodeDis()
     {
         m_NodeDis = (GetNodePosition(1) - GetNodePosition(0)).x;
     }
-
-    public void OnStartCoroutine(IEnumerator cor)
-    {
-        StartCoroutine(cor);
-    }
-
+   
     public void CrossTileCheck(Transform tileTransform)
     {
         m_TileChecker.CrossTileCheck(tileTransform);
