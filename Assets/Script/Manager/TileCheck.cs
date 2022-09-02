@@ -12,7 +12,7 @@ public class TileCheck
 
     ICrossCheck m_CrossAllCheck;
 
-    [SerializeField]
+
     List<Tile> m_matchTile;
 
     Mutex<TileCheck> m_Mutex;
@@ -29,12 +29,11 @@ public class TileCheck
 
     public void InitLineCheckAll()
     {
-        if (!isInit)
-        {
-            ReSetChecking(true);
-            ReSetChecking(false);
-            isInit = true;
-        }
+        if (isInit)
+            return;
+        ReSetChecking(true);
+        ReSetChecking(false);
+        isInit = true;
     }
 
     void ReSetChecking(bool isWidth)

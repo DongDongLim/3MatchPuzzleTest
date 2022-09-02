@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CheckState : GameState
 {
+    List<Tile> m_matchTile;
+
     public override void Init(StateAI owner, params object[] variable)
     {
         base.Init(owner, variable);
