@@ -36,6 +36,6 @@ public class SwapTileLerp : ISwap
         m_FirstEndTarget = SharedData.instance.GetNodePosition(m_SecondTile.m_PositionIndex);
         m_SecondEndTarget = SharedData.instance.GetNodePosition(m_firstTile.m_PositionIndex);
         m_MoveEnbAction = swapAction;
-        SharedData.instance.OnStartCoroutine(Swap());
+        UseMonoBehaviour.instance.OnStartCoroutine(Swap());
     }
 }

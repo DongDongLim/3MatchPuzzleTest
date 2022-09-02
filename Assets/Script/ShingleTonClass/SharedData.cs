@@ -5,6 +5,21 @@ using UnityEngine.Events;
 
 public class SharedData : SingleTonOnly<SharedData>
 {
+    #region 상태 이넘
+
+    public enum EGAMESTATE
+    {
+        NONE = -1,
+        INIT,
+        CHECK,
+        BREAK,
+        STAY,
+
+        SIZE,
+    }
+
+    #endregion
+
     #region 스왑
     [SerializeField]
     private int m_SwapSpeed;
@@ -54,8 +69,6 @@ public class SharedData : SingleTonOnly<SharedData>
 
     public delegate void TileAction(Tile tile);
 
-    public UnityAction OnStartGame;
-
     public TileAction OnSelectTile;
 
     public TileAction OnSwapTile;
@@ -76,7 +89,9 @@ public class SharedData : SingleTonOnly<SharedData>
 
     public float NodeDis { get { return m_NodeDis; } }
 
-    public TileMake TileMaker { get { return m_TileMaker; } }
+    public GameObject TilePrefab { get { return m_TilePrefab; } }
+
+    public Transform TileParant { get { return m_TileParant; } }
 
     public void SetNodeIndexs(int height, int width, int value)
     {
@@ -89,17 +104,17 @@ public class SharedData : SingleTonOnly<SharedData>
     }
     public Vector2 GetNodePosition(int index)
     {
-        return m_Nodes.GetPuzzleNode(index);
+        return m_Nodes.GetNodePosition(index);
     }
 
     public Vector2 GetNodePosition(int height, int width)
     {
-        return m_Nodes.GetPuzzleNode(GetNodeIndexs(height, width));
+        return m_Nodes.GetNodePosition(GetNodeIndexs(height, width));
     }
 
     public Vector2 GetPuzzleCoordinate(int index)
     {
-        return m_Nodes.GetPuzzleCoordinate(index);
+        return m_Nodes.GetNodeCoordinate(index);
     }
 
     protected override void OnAwake()

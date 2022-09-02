@@ -17,6 +17,7 @@ public class TileCheck
 
     Mutex<TileCheck> m_Mutex;
 
+    public bool isInit;
 
     public TileCheck()
     {
@@ -24,13 +25,16 @@ public class TileCheck
         m_CrossAllCheck = new CrossCheckAll();
         m_matchTile = new List<Tile>(SharedData.instance.MaxWidth * 2);
         m_Mutex = new Mutex<TileCheck>();
-        SharedData.instance.OnStartGame += InitLineCheckAll;
     }
 
-    void InitLineCheckAll()
+    public void InitLineCheckAll()
     {
-        ReSetChecking(true);
-        ReSetChecking(false);
+        if (!isInit)
+        {
+            ReSetChecking(true);
+            ReSetChecking(false);
+            isInit = true;
+        }
     }
 
     void ReSetChecking(bool isWidth)
@@ -80,7 +84,7 @@ public class TileCheck
             }
         }
         m_matchTile.Clear();
-        SharedData.instance.OnStartCoroutine(ReActiveTile());
+        UseMonoBehaviour.instance.OnStartCoroutine(ReActiveTile());
     }
 
     List<Tile> m_MoveTile = new List<Tile>(9);
@@ -104,12 +108,12 @@ public class TileCheck
                 m_TileMove.Add(hit);
             }
 
-            for (int i = 1; i <= node.Value.Count; ++i)
-            {
-                GameObject obj = SharedData.instance.TileMaker.ActiveTile(node.Key + (SharedData.instance.MaxWidth * (node.Value.Count - i)));
-                obj.transform.position = SharedData.instance.GetNodePosition(node.Key) + (Vector2.up * SharedData.instance.NodeDis * i);
-                m_TileMove.Add(obj.GetComponent<Tile>());
-            }
+            //for (int i = 1; i <= node.Value.Count; ++i)
+            //{
+            //    GameObject obj = SharedData.instance.TileMaker.ActiveTile(node.Key + (SharedData.instance.MaxWidth * (node.Value.Count - i)));
+            //    obj.transform.position = SharedData.instance.GetNodePosition(node.Key) + (Vector2.up * SharedData.instance.NodeDis * i);
+            //    m_TileMove.Add(obj.GetComponent<Tile>());
+            //}
 
             yield return null;
             

@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class CheckState : GameState
 {
-    public override void Enter()
+    public override void Init(StateAI owner, params object[] variable)
     {
-        throw new System.NotImplementedException();
+        base.Init(owner, variable);
     }
 
-    public override void Exit(State NextState)
+    public override void Enter()
+    {
+        m_TileChecker.InitLineCheckAll();
+    }
+
+    public override void Exit()
     {
         throw new System.NotImplementedException();
     }
 
     public override void StateUpdate()
     {
-        throw new System.NotImplementedException();
+
     }
 }

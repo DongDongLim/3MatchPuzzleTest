@@ -14,25 +14,30 @@ public class InitState : GameState
 
     #endregion
 
-    public InitState(GameObject tilePrefab, Transform tileParant)
+    public InitState()
     {
-        m_TilePrefab = tilePrefab;
-        m_TileParant = tileParant;
+        m_TilePrefab = SharedData.instance.TilePrefab;
+        m_TileParant = SharedData.instance.TileParant;
+    }
+    public override void Init(StateAI owner, params object[] variable)
+    {
+        base.Init(owner, variable);
     }
 
     public override void Enter()
     {
         CreateTile();
+        m_TileChecker.isInit = false;
     }
 
-    public override void Exit(State NextState)
+    public override void Exit()
     {
 
     }
 
     public override void StateUpdate()
     {
-
+        m_Owner.TransState(SharedData.EGAMESTATE.CHECK);
     }
 
     public void CreateTile()
@@ -47,4 +52,5 @@ public class InitState : GameState
         }
 
     }
+
 }

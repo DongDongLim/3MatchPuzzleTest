@@ -4,20 +4,13 @@ using UnityEngine;
 
 public abstract class State
 {
-    StateAI m_Owner;
+    protected StateAI m_Owner;
 
-    public State(StateAI owner)
-    {
-        m_Owner = owner;
-    }
+    public abstract void Init(StateAI owner, params object[] variable);
 
     public abstract void Enter();
 
     public abstract void StateUpdate();
 
-    public virtual void Exit(State NextState)
-    {
-        m_Owner.m_CurState = NextState;
-        NextState.Enter();
-    }
+    public abstract void Exit();
 }

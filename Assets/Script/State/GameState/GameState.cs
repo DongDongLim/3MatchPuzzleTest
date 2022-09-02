@@ -1,15 +1,25 @@
 
 public abstract class GameState : State
 {
-    #region 타일 풀링
+    #region 변수
 
     protected TileMake m_TileMaker;
 
+    protected TileCheck m_TileChecker;
+
     #endregion
+
+    public override void Init(StateAI owner, params object[] variable)
+    {
+        m_Owner = owner;
+        m_TileMaker = (TileMake)variable[0];
+        m_TileChecker = (TileCheck)variable[1];
+    }
+
     public override abstract void Enter();
 
     public override abstract void StateUpdate();
 
-    public override abstract void Exit(State NextState);
+    public override abstract void Exit();
 
 }
