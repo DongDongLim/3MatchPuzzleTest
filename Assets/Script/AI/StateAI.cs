@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class StateArray
 {
-    protected List<State> m_States;
+    protected State[] m_States;
     protected int m_ArrayCount;
 
     public State this[int index]

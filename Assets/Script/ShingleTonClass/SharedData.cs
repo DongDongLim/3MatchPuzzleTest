@@ -40,8 +40,6 @@ public class SharedData : SingleTonOnly<SharedData>
 
     private int m_MaxPoolCount;
 
-    private int[,] m_NodeIndexs;
-
     [SerializeField]
     private float m_NodeDis;
 
@@ -93,14 +91,10 @@ public class SharedData : SingleTonOnly<SharedData>
 
     public Transform TileParant { get { return m_TileParant; } }
 
-    public void SetNodeIndexs(int height, int width, int value)
-    {
-        m_NodeIndexs[height, width] = value;
-    }
 
     public int GetNodeIndexs(int height, int width)
     {
-        return m_NodeIndexs[height, width];
+        return (height * m_MaxWidth) + width;
     }
     public Vector2 GetNodePosition(int index)
     {
@@ -119,7 +113,6 @@ public class SharedData : SingleTonOnly<SharedData>
 
     protected override void OnAwake()
     {
-        m_NodeIndexs = new int[m_MaxHeight, m_MaxWidth];
         m_MaxPoolCount = m_MaxWidth * m_MaxHeight;
         m_TileChecker = new TileCheck();
         m_emptyNodes = new Dictionary<int, List<int>>();

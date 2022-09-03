@@ -17,15 +17,12 @@ public class GameStateArray : StateArray
         Debug.Assert(size == gameStates.Length);
 
         m_ArrayCount = size;
-        m_States = new List<State>(size);
+        m_States = gameStates;
         m_TileMaker = new TileMake();
         m_TileChecker = new TileCheck();
 
-        for (int i = 0; i < size; ++i)
-        {
-            m_States.Add(gameStates[i]);
-            m_States[i].Init(ownerAI, m_TileMaker, m_TileChecker);
-        }
+        foreach (var state in m_States)
+            state.Init(ownerAI, m_TileMaker, m_TileChecker);
     }
 }
 

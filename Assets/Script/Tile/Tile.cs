@@ -38,6 +38,8 @@ public abstract class Tile : MonoBehaviour
 
     public abstract void ReSetting(TileCheck tileCheck);
 
+    public abstract int GetMaxType();
+
     public void CrossCheck()
     {
         m_CrossTile = m_CrossCheck.CrossChecking(transform);

@@ -80,4 +80,9 @@ public class ColorTile : Tile, IPointerDownHandler, IPointerUpHandler, IPointerE
         m_PositionIndex = targetIndex;
         m_MoveEndAction?.Invoke();
     }
+
+    public override int GetMaxType()
+    {
+        return m_color.Length;
+    }
 }
